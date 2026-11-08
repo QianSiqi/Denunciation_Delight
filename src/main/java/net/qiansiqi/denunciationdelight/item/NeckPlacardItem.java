@@ -118,7 +118,7 @@ public class NeckPlacardItem extends ArmorItem {
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.initializePlacard(consumer));
+        ClientItemHooks.initializePlacard(consumer);
     }
 
     @Override

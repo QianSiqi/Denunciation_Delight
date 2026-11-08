@@ -77,6 +77,7 @@ public class NeckPlacardModel extends HumanoidModel<LivingEntity> {
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         this.body.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        renderPlacardText(poseStack, packedLight);
     }
 
     private static float sanitizeFontScale(float value) {
@@ -120,30 +121,15 @@ public class NeckPlacardModel extends HumanoidModel<LivingEntity> {
         poseStack.pushPose();
         this.body.translateAndRotate(poseStack);
 
-        // 牌子正面中心在 z = -3.0F, y = 3.5F 处
-        // 稍微移出表面 (z = -3.12F) 避免与板面穿模
-        poseStack.translate(0.0F, 3.8F, -3.12F);
+        // 与实体文字层保持一致：胸甲前表面外移 0.22 像素，避免穿模
+        poseStack.translate(0.0F, 3.6F / 16.0F, -3.22F / 16.0F);
 
-        // 绕 Y 轴旋转 180° 正对观察者
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        float scale = 0.0165F * fontScale;
+        poseStack.scale(scale, scale, scale);
 
-        // 缩放文字大小：采用 scale(s, -s, -s) 保证绕序为正，杜绝背面剔除
-        float baseScale = 0.018F * fontScale;
-        int light = 0xF000F0; // 满亮度，确保文字不被身体光照压暗
-
-        float yStep = 11.0F * fontScale;
-
-        // 正向绘制
-        poseStack.pushPose();
-        poseStack.scale(baseScale, -baseScale, -baseScale);
+        int light = 0xF000F0;
+        float yStep = 10.5F * fontScale;
         drawAllLines(font, line1, line2, line3, redCross, yStep, poseStack, bufferSource, light);
-        poseStack.popPose();
-
-        // 双保险反向绘制（防止任意着色器或反向剔除设置影响）
-        poseStack.pushPose();
-        poseStack.scale(-baseScale, -baseScale, baseScale);
-        drawAllLines(font, line1, line2, line3, redCross, yStep, poseStack, bufferSource, light);
-        poseStack.popPose();
 
         poseStack.popPose();
     }
@@ -153,7 +139,7 @@ public class NeckPlacardModel extends HumanoidModel<LivingEntity> {
         // 第 1 行：身份/罪名 (醒目红字)
         if (!line1.isEmpty()) {
             int w1 = font.width(line1);
-            font.drawInBatch(line1, -w1 / 2.0F, 0.0F, 0xD01010, false,
+            font.drawInBatch(line1, -w1 / 2.0F, 0.0F, 0xFFDD0000, false,
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
         }
 
@@ -161,16 +147,16 @@ public class NeckPlacardModel extends HumanoidModel<LivingEntity> {
         if (!line2.isEmpty()) {
             int w2 = font.width(line2);
             float y2 = yStep;
-            font.drawInBatch(line2, -w2 / 2.0F, y2, 0x111111, false,
+            font.drawInBatch(line2, -w2 / 2.0F, y2, 0xFF000000, false,
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
 
             // 红叉
             if (redCross) {
                 poseStack.pushPose();
                 poseStack.translate(0.0F, 0.0F, -0.05F);
-                String cross = "❌";
+                String cross = "§lX";
                 int cw = font.width(cross);
-                font.drawInBatch(cross, -cw / 2.0F, y2 - 1.0F, 0xFF0000, false,
+                font.drawInBatch(cross, -cw / 2.0F, y2 - 1.0F, 0xFFFF0000, false,
                         poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
                 poseStack.popPose();
             }
@@ -180,7 +166,7 @@ public class NeckPlacardModel extends HumanoidModel<LivingEntity> {
         if (!line3.isEmpty()) {
             int w3 = font.width(line3);
             float y3 = yStep * 2.0F;
-            font.drawInBatch(line3, -w3 / 2.0F, y3, 0x333333, false,
+            font.drawInBatch(line3, -w3 / 2.0F, y3, 0xFF222222, false,
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
         }
     }

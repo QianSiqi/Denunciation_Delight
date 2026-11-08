@@ -16,7 +16,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.qiansiqi.denunciationdelight.DenunciationDelight;
 import net.qiansiqi.denunciationdelight.client.model.ConeHatModel;
 import net.qiansiqi.denunciationdelight.client.model.NeckPlacardModel;
-import net.qiansiqi.denunciationdelight.client.renderer.PlacardAndHatTextLayer;
 import net.qiansiqi.denunciationdelight.client.compat.curios.CuriosClientCompat;
 
 @Mod.EventBusSubscriber(modid = DenunciationDelight.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -90,7 +89,7 @@ public class ClientSetup {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static <T extends LivingEntity, M extends EntityModel<T>> void addCustomLayers(LivingEntityRenderer<T, M> renderer) {
-        renderer.addLayer(new PlacardAndHatTextLayer(renderer));
+        // 高帽/挂牌文字由各自的护甲模型渲染，避免实体层与模型同时绘制导致重影
         renderer.addLayer(new net.qiansiqi.denunciationdelight.client.renderer.InkSplatterLayer(renderer));
     }
 

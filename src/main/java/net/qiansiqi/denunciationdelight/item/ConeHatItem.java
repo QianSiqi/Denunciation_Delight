@@ -105,7 +105,8 @@ public class ConeHatItem extends ArmorItem {
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.initializeConeHat(consumer));
+        // 护甲模型必须可靠注册，文本直接由模型渲染，避免只依赖实体层
+        ClientItemHooks.initializeConeHat(consumer);
     }
 
     @Override

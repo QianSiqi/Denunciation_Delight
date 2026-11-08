@@ -103,5 +103,52 @@ public class ConeHatModel extends HumanoidModel<LivingEntity> {
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         this.head.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        renderHatText(poseStack, packedLight);
+    }
+
+    /**
+     * 直接由护甲模型绘制文字，避免只依赖实体渲染层时出现“字不见”的问题。
+     */
+    private void renderHatText(PoseStack poseStack, int packedLight) {
+        CompoundTag tag = this.currentStack.getTag();
+        String text = "";
+        float fontScale = 1.0F;
+
+        if (tag != null) {
+            text = tag.getString(ConeHatItem.TAG_HAT_TEXT);
+            if (tag.contains(ConeHatItem.TAG_FONT_SIZE)) {
+                fontScale = tag.getFloat(ConeHatItem.TAG_FONT_SIZE);
+            }
+        }
+        if (!Float.isFinite(fontScale)) fontScale = 1.0F;
+        fontScale = Math.max(0.5F, Math.min(2.5F, fontScale));
+
+        if (text.isEmpty() && this.currentStack.hasCustomHoverName()) {
+            text = this.currentStack.getHoverName().getString();
+        }
+        if (text.isEmpty()) return;
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+        MultiBufferSource bufferSource = mc.renderBuffers().bufferSource();
+
+        poseStack.pushPose();
+        this.head.translateAndRotate(poseStack);
+        poseStack.translate(0.0F, -28.0F / 16.0F, -1.80F / 16.0F);
+        poseStack.mulPose(Axis.XP.rotationDegrees(-7.8F));
+
+        float scale = 0.016F * fontScale;
+        poseStack.scale(scale, scale, scale);
+
+        float charSpacing = 10.0F * fontScale;
+        int light = 0xF000F0;
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            String ch = String.valueOf(chars[i]);
+            int cw = font.width(ch);
+            font.drawInBatch(ch, -cw / 2.0F, i * charSpacing, 0xFF000000, false,
+                    poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, light);
+        }
+        poseStack.popPose();
     }
 }
