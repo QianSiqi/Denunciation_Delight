@@ -7,4 +7,9 @@ pluginManagement {
     }
 }
 
+plugins {
+    // 允许 Gradle 在缺少 JDK 17 时自动下载 toolchain，CI/新机器无需硬编码本机路径
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
 rootProject.name = 'denunciationdelight'
