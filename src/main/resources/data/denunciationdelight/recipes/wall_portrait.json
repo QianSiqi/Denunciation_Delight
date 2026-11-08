@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "pattern": [
+    "SSS",
+    "SPS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "denunciationdelight:wall_portrait",
+    "count": 1
+  }
+}

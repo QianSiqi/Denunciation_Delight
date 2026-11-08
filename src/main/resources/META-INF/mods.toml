@@ -1,0 +1,46 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="批斗乐事 (Denunciation Delight)"
+authors="${mod_authors}"
+description='''批斗乐事 (Denunciation Delight) - 增添反动高帽子与游街挂牌、墨水泼洒、疯度值与自裁动画的沉浸式趣味模组。'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+# 可选兼容：缺少这些模组时仍可正常加载
+[[dependencies.${mod_id}]]
+    modId="curios"
+    mandatory=false
+    versionRange="[5.14.1,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="tacz"
+    mandatory=false
+    versionRange="[1.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="epicfight"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"

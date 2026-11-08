@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# Minecraft dev run directory
+run/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local optional runtime/dev jars (e.g. TACZ); build no longer depends on them
+libs/
+
+# Local decompiled reference classes
+reference/
+*.class
+
+# Logs / OS junk
+*.log
+.DS_Store
+Thumbs.db
