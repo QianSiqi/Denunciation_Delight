@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.qiansiqi.denunciationdelight.DenunciationDelight;
 import net.qiansiqi.denunciationdelight.block.NationalFlagBlock;
 import net.qiansiqi.denunciationdelight.block.entity.NationalFlagBlockEntity;
+import net.qiansiqi.denunciationdelight.flag.FlagRegistry;
 import org.joml.Matrix4f;
 
 public class NationalFlagRenderer implements BlockEntityRenderer<NationalFlagBlockEntity> {
@@ -47,15 +48,9 @@ public class NationalFlagRenderer implements BlockEntityRenderer<NationalFlagBlo
         renderBox(poleConsumer, poleMat, -0.07F, 2.85F, -0.07F, 0.07F, 2.95F, 0.07F, packedLight, packedOverlay);
 
         // 2. 渲染国旗旗面 (大幅标准旗帜：宽 1.6格，高 1.06格，约 3:2 黄金比例)
-        String countryId = be.getCountryId();
-        if (!NationalFlagBlockEntity.isValidCountry(countryId)) countryId = "china";
-
-        // tryBuild 防止旧存档/异常 NBT 中的非法字符让渲染线程抛异常
-        ResourceLocation flagTexture = ResourceLocation.tryBuild(
-                DenunciationDelight.MOD_ID, "textures/flag/" + countryId + ".png");
-        if (flagTexture == null) {
-            flagTexture = new ResourceLocation(DenunciationDelight.MOD_ID, "textures/flag/china.png");
-        }
+        String countryId = FlagRegistry.canonicalize(be.getCountryId());
+        if (countryId == null) countryId = "cn";
+        ResourceLocation flagTexture = FlagRegistry.texture(countryId);
         VertexConsumer flagConsumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(flagTexture));
         Matrix4f flagMat = poseStack.last().pose();
 

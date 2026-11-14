@@ -33,9 +33,12 @@ Minecraft 1.20.1 Forge 装饰/整活模组。
 
 ### 5. 国家旗帜 (`National Flag`)
 - 木棍 + 白色羊毛合成。
-- 带金属旗杆与双面旗面；右键在 8 面旗帜中切换：
-  中国、苏联、俄罗斯、美国、英国、法国、德国、联合国。
-- 服务端只接受白名单 ID，旧存档中的非法值会回退到中国旗。
+- 带金属旗杆与双面旗面；右键打开可搜索的国旗选择界面。
+- 内置 253 面旗帜：249 个 ISO 3166-1 国家/地区 + 欧盟、联合国、苏联。
+- 支持中文名、英文名、国家代码搜索，分页显示。
+- 旧存档的 `china/usa/uk/russia/france/germany` 会自动映射到新的 ISO ID。
+- 服务端只接受注册表中的 ID，非法值会回退到中国旗。
+- 旗帜贴图来自 [flagcdn.com](https://flagcdn.com/)，统一压缩为 64×40 PNG；来源说明见 `textures/flag/SOURCE.txt`。
 
 ### 6. 墨水瓶 (`Ink Bottle`)
 - 玻璃瓶 + 墨囊合成。
@@ -94,6 +97,7 @@ denunciationdelight/
 │   │   ├── entity/                           # 投掷墨水瓶
 │   │   ├── effect/                           # 泼墨效果
 │   │   ├── event/                            # 通用交互事件
+│   │   ├── flag/                             # 国旗注册表、中文/英文名
 │   │   ├── madness/                          # 疯度、自裁、伤害来源
 │   │   ├── network/                          # 10 个网络包
 │   │   ├── portrait/                         # 服务端画像存储
@@ -111,7 +115,7 @@ denunciationdelight/
 │   └── resources/
 │       ├── META-INF/mods.toml
 │       ├── pack.mcmeta
-│       ├── assets/denunciationdelight/        # 模型、贴图、中英文语言文件
+│       ├── assets/denunciationdelight/        # 模型、贴图、flags.json、中英文语言文件
 │       └── data/denunciationdelight/          # 配方
 ```
 

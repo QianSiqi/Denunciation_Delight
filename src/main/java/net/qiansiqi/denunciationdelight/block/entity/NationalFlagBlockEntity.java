@@ -7,23 +7,18 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.qiansiqi.denunciationdelight.flag.FlagRegistry;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-
 public class NationalFlagBlockEntity extends BlockEntity {
-    public static final Set<String> VALID_COUNTRIES = Set.of(
-            "china", "ussr", "russia", "usa", "uk", "france", "germany", "un"
-    );
-
-    private String countryId = "china";
+    private String countryId = "cn";
 
     public NationalFlagBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.NATIONAL_FLAG.get(), pos, state);
     }
 
     public static boolean isValidCountry(String countryId) {
-        return countryId != null && VALID_COUNTRIES.contains(countryId);
+        return FlagRegistry.isValidCountry(countryId);
     }
 
     public String getCountryId() {
@@ -31,8 +26,9 @@ public class NationalFlagBlockEntity extends BlockEntity {
     }
 
     public void setCountryId(String countryId) {
-        if (!isValidCountry(countryId)) return;
-        this.countryId = countryId;
+        String canonical = FlagRegistry.canonicalize(countryId);
+        if (canonical == null) return;
+        this.countryId = canonical;
         setChanged();
         if (level != null && !level.isClientSide) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
@@ -49,8 +45,8 @@ public class NationalFlagBlockEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
         if (tag.contains("CountryId")) {
-            String loaded = tag.getString("CountryId");
-            this.countryId = isValidCountry(loaded) ? loaded : "china";
+            String loaded = FlagRegistry.canonicalize(tag.getString("CountryId"));
+            this.countryId = loaded == null ? "cn" : loaded;
         }
     }
 

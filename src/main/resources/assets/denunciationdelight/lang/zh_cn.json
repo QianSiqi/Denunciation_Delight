@@ -46,6 +46,8 @@
   "gui.denunciationdelight.portrait_edit.invalid": "§c无法解析该图片格式！",
   "gui.denunciationdelight.portrait_edit.failed": "§c处理失败: %s",
   "gui.denunciationdelight.flag_select.title": "选择国旗",
+  "gui.denunciationdelight.flag_select.search": "搜索国旗（中文 / 英文 / 代码）",
+  "gui.denunciationdelight.flag_select.page": "第 %s/%s 页 · 共 %s 面",
   "flag.denunciationdelight.china": "中国国旗 (五星红旗)",
   "flag.denunciationdelight.ussr": "苏联国旗 (红旗镰刀锤子)",
   "flag.denunciationdelight.russia": "俄罗斯国旗 (白蓝红三色)",

@@ -46,6 +46,8 @@
   "gui.denunciationdelight.portrait_edit.invalid": "§cUnsupported image format!",
   "gui.denunciationdelight.portrait_edit.failed": "§cProcessing failed: %s",
   "gui.denunciationdelight.flag_select.title": "Select National Flag",
+  "gui.denunciationdelight.flag_select.search": "Search flags (name / code)",
+  "gui.denunciationdelight.flag_select.page": "Page %s/%s · %s flags",
   "flag.denunciationdelight.china": "China (Five-Star Red Flag)",
   "flag.denunciationdelight.ussr": "USSR (Red Flag with Hammer & Sickle)",
   "flag.denunciationdelight.russia": "Russia (White-Blue-Red)",

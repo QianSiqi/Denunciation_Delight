@@ -1,0 +1,2 @@
+Flag images are sourced from https://flagcdn.com/ and resized to 64x40 for this mod.
+National flags are generally public domain; see flagcdn.com for details.

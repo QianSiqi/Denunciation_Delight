@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import net.qiansiqi.denunciationdelight.block.entity.NationalFlagBlockEntity;
+import net.qiansiqi.denunciationdelight.flag.FlagRegistry;
 
 import java.util.function.Supplier;
 
@@ -35,7 +36,8 @@ public class SelectFlagPacket {
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
             if (player == null) return;
-            if (!NationalFlagBlockEntity.isValidCountry(this.countryId)) return;
+            String canonical = FlagRegistry.canonicalize(this.countryId);
+            if (canonical == null) return;
 
             Level level = player.level();
             if (!level.isLoaded(this.pos)) return;
@@ -44,7 +46,7 @@ public class SelectFlagPacket {
 
             BlockEntity be = level.getBlockEntity(this.pos);
             if (be instanceof NationalFlagBlockEntity flagBE) {
-                flagBE.setCountryId(this.countryId);
+                flagBE.setCountryId(canonical);
             }
         });
         ctx.setPacketHandled(true);
