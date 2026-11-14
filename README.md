@@ -165,13 +165,13 @@ denunciationdelight/
 仓库已配置 GitHub Actions（`.github/workflows/gradle-publish.yml`）：
 
 - push 到 `main` / PR / 手动运行：构建并上传 `build/libs/*.jar` 到 Actions Artifacts；
-- push 形如 `v1.0.0` 的 tag：构建后自动创建 GitHub Release，并把 jar 挂到 Release 资产。
+- push 形如 `v1.1.0` 的 tag：构建后自动创建 GitHub Release，并把 jar 挂到 Release 资产。
 
 发布新版本：
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 ## 已知限制
