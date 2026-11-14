@@ -20,6 +20,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.CONE_HAT.get());
                         output.accept(ModItems.NECK_PLACARD.get());
                         output.accept(ModItems.INK_BOTTLE.get());
+                        output.accept(ModItems.SELECTED_WORKS.get());
                         output.accept(net.qiansiqi.denunciationdelight.block.ModBlocks.SLOGAN_BANNER.get());
                         output.accept(net.qiansiqi.denunciationdelight.block.ModBlocks.WALL_PORTRAIT.get());
                         output.accept(net.qiansiqi.denunciationdelight.block.ModBlocks.NATIONAL_FLAG.get());

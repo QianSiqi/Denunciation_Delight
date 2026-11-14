@@ -1,0 +1,17 @@
+{
+  "title": "毛泽东选集",
+  "pages": [
+    {
+      "heading": "说明",
+      "body": "这是一本装饰性书籍。模组本身不包含《毛泽东选集》的原文，也不附带任何未授权文本。"
+    },
+    {
+      "heading": "添加内容",
+      "body": "将你拥有版权或使用授权的文本写入 config/denunciationdelight/selected_works.json。\n\n每个 page 包含 heading 和 body，body 支持换行。修改后重新打开书本即可看到新内容。"
+    },
+    {
+      "heading": "格式示例",
+      "body": "{\n  \"title\": \"毛泽东选集\",\n  \"pages\": [\n    {\"heading\": \"标题\", \"body\": \"正文\"}\n  ]\n}"
+    }
+  ]
+}

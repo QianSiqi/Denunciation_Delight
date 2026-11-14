@@ -59,17 +59,21 @@ public class NationalFlagRenderer implements BlockEntityRenderer<NationalFlagBlo
         float y1 = 1.74F;
         float y2 = 2.80F;
 
+        // 正反面稍微错开，避免两个共面四边形产生 z-fighting 闪烁
+        float frontZ = 0.001F;
+        float backZ = -0.001F;
+
         // 正面 (+Z)
-        flagConsumer.vertex(flagMat, x1, y1, 0.0F).color(1F, 1F, 1F, 1F).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
-        flagConsumer.vertex(flagMat, x2, y1, 0.0F).color(1F, 1F, 1F, 1F).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
-        flagConsumer.vertex(flagMat, x2, y2, 0.0F).color(1F, 1F, 1F, 1F).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
-        flagConsumer.vertex(flagMat, x1, y2, 0.0F).color(1F, 1F, 1F, 1F).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
+        flagConsumer.vertex(flagMat, x1, y1, frontZ).color(1F, 1F, 1F, 1F).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
+        flagConsumer.vertex(flagMat, x2, y1, frontZ).color(1F, 1F, 1F, 1F).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
+        flagConsumer.vertex(flagMat, x2, y2, frontZ).color(1F, 1F, 1F, 1F).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
+        flagConsumer.vertex(flagMat, x1, y2, frontZ).color(1F, 1F, 1F, 1F).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, 1).endVertex();
 
         // 反面 (-Z)
-        flagConsumer.vertex(flagMat, x1, y2, 0.0F).color(1F, 1F, 1F, 1F).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
-        flagConsumer.vertex(flagMat, x2, y2, 0.0F).color(1F, 1F, 1F, 1F).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
-        flagConsumer.vertex(flagMat, x2, y1, 0.0F).color(1F, 1F, 1F, 1F).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
-        flagConsumer.vertex(flagMat, x1, y1, 0.0F).color(1F, 1F, 1F, 1F).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
+        flagConsumer.vertex(flagMat, x1, y2, backZ).color(1F, 1F, 1F, 1F).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
+        flagConsumer.vertex(flagMat, x2, y2, backZ).color(1F, 1F, 1F, 1F).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
+        flagConsumer.vertex(flagMat, x2, y1, backZ).color(1F, 1F, 1F, 1F).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
+        flagConsumer.vertex(flagMat, x1, y1, backZ).color(1F, 1F, 1F, 1F).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(0, 0, -1).endVertex();
 
         poseStack.popPose();
     }

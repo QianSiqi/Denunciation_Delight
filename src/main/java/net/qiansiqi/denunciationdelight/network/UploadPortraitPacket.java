@@ -9,6 +9,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import net.qiansiqi.denunciationdelight.block.entity.WallPortraitBlockEntity;
 import net.qiansiqi.denunciationdelight.config.ModConfig;
+import net.qiansiqi.denunciationdelight.portrait.PortraitStructure;
 import net.qiansiqi.denunciationdelight.portrait.ServerPortraitManager;
 
 import java.util.function.Supplier;
@@ -56,7 +57,17 @@ public class UploadPortraitPacket {
 
             String portraitId = ServerPortraitManager.saveImage(this.imageData);
             if (!portraitId.isEmpty()) {
-                portraitBE.setPortraitId(portraitId);
+                // 整组相连画像共用同一张图；之后放置/破坏任意一块都会重新计算画面尺寸
+                PortraitStructure.Layout layout = PortraitStructure.scan(level, this.pos);
+                if (layout == null) {
+                    portraitBE.setPortraitId(portraitId);
+                } else {
+                    for (BlockPos connected : layout.blocks()) {
+                        if (level.getBlockEntity(connected) instanceof WallPortraitBlockEntity connectedBE) {
+                            connectedBE.setPortraitId(portraitId);
+                        }
+                    }
+                }
             }
         });
         ctx.setPacketHandled(true);

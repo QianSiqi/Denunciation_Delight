@@ -4,7 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -58,6 +60,34 @@ public class WallPortraitBlock extends HorizontalDirectionalBlock implements Ent
     }
 
     @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+                            @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (level.isClientSide()) return;
+
+        BlockEntity be = level.getBlockEntity(pos);
+        if (!(be instanceof WallPortraitBlockEntity portraitBE)) return;
+
+        Direction facing = state.getValue(FACING);
+        Direction right = facing.getCounterClockWise();
+        Direction left = right.getOpposite();
+        // 吸附到已有画像时继承图片，让新方块立即成为整组画面的一部分
+        for (Direction direction : new Direction[]{right, left, Direction.UP, Direction.DOWN}) {
+            BlockPos neighborPos = pos.relative(direction);
+            BlockState neighborState = level.getBlockState(neighborPos);
+            if (!(neighborState.getBlock() instanceof WallPortraitBlock)
+                    || neighborState.getValue(FACING) != facing) {
+                continue;
+            }
+            if (level.getBlockEntity(neighborPos) instanceof WallPortraitBlockEntity neighborBE
+                    && !neighborBE.getPortraitId().isEmpty()) {
+                portraitBE.setPortraitId(neighborBE.getPortraitId());
+                break;
+            }
+        }
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
@@ -67,7 +97,7 @@ public class WallPortraitBlock extends HorizontalDirectionalBlock implements Ent
         if (level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof WallPortraitBlockEntity portraitBE) {
-                DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openWallPortrait(portraitBE));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openWallPortrait(portraitBE));
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());

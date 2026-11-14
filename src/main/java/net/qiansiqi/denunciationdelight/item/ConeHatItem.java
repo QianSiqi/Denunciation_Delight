@@ -80,7 +80,7 @@ public class ConeHatItem extends ArmorItem {
         }
 
         if (level.isClientSide()) {
-            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.openConeHatEditor(stack, hand));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.openConeHatEditor(stack, hand));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }

@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.qiansiqi.denunciationdelight.flag.FlagRegistry;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +24,14 @@ public class NationalFlagBlockEntity extends BlockEntity {
 
     public String getCountryId() {
         return countryId;
+    }
+
+    /**
+     * 旗面伸出方块本体约 1.6 格，默认的 1×1×1 渲染包围盒会让旗帜在转动视角时被剔除。
+     */
+    @Override
+    public AABB getRenderBoundingBox() {
+        return new AABB(worldPosition).inflate(3.0D);
     }
 
     public void setCountryId(String countryId) {

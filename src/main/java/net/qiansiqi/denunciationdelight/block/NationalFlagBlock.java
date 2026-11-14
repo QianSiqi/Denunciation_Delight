@@ -59,7 +59,7 @@ public class NationalFlagBlock extends HorizontalDirectionalBlock implements Ent
         if (level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof NationalFlagBlockEntity flagBE) {
-                DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openNationalFlag(flagBE));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openNationalFlag(flagBE));
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());

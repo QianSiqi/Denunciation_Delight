@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.qiansiqi.denunciationdelight.client.gui.ConeHatEditScreen;
 import net.qiansiqi.denunciationdelight.client.gui.PlacardEditScreen;
+import net.qiansiqi.denunciationdelight.client.gui.SelectedWorksScreen;
 import net.qiansiqi.denunciationdelight.client.renderer.ConeHatArmorRenderer;
 import net.qiansiqi.denunciationdelight.client.renderer.NeckPlacardArmorRenderer;
 import org.jetbrains.annotations.NotNull;
@@ -48,5 +49,9 @@ public final class ClientItemHooks {
 
     public static void openPlacardEditor(ItemStack stack, InteractionHand hand) {
         Minecraft.getInstance().setScreen(new PlacardEditScreen(stack, hand));
+    }
+
+    public static void openSelectedWorks() {
+        Minecraft.getInstance().setScreen(new SelectedWorksScreen());
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public class WallPortraitBlockEntity extends BlockEntity {
@@ -18,6 +19,14 @@ public class WallPortraitBlockEntity extends BlockEntity {
 
     public String getPortraitId() {
         return portraitId;
+    }
+
+    /**
+     * 多方块画像可能延伸到周围 8 格，扩大渲染包围盒避免视锥剔除。
+     */
+    @Override
+    public AABB getRenderBoundingBox() {
+        return new AABB(worldPosition).inflate(8.0D);
     }
 
     public void setPortraitId(String portraitId) {

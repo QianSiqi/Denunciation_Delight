@@ -18,4 +18,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> INK_BOTTLE = ITEMS.register("ink_bottle",
             () -> new InkBottleItem(new Item.Properties().stacksTo(16).rarity(Rarity.COMMON)));
+
+    public static final RegistryObject<Item> SELECTED_WORKS = ITEMS.register("selected_works",
+            () -> new SelectedWorksItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 }

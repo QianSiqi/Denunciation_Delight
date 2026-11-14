@@ -140,7 +140,7 @@ public class SloganBannerBlock extends HorizontalDirectionalBlock implements Ent
         if (level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof SloganBannerBlockEntity bannerBE) {
-                DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openSloganBanner(bannerBE));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> BlockClientInteractions.openSloganBanner(bannerBE));
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());

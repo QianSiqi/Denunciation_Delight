@@ -84,7 +84,7 @@ public class NeckPlacardItem extends ArmorItem {
 
         // 普通右键打开编辑界面
         if (level.isClientSide()) {
-            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.openPlacardEditor(stack, hand));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientItemHooks.openPlacardEditor(stack, hand));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
